@@ -20,14 +20,33 @@ public class Boundary
 public class PlayerController : MonoBehaviour {
 
     private Rigidbody rb;
+    private float nextFire = 0.0f;
 
     public float speed;
     public float tilt;
     public Boundary boundary;
 
+    [Header("Ataques")]
+    [SerializeField]
+    public GameObject shot;
+    [SerializeField]
+    public Transform shotSpawn;
+    [SerializeField]
+    public float fireRate;
+    
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+    }
+
+    void Update()
+    {
+        if (Input.GetButton("Fire1") && Time.time > nextFire)
+        {
+            nextFire = Time.time + fireRate;
+            Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+        }
     }
 
     void FixedUpdate()
